@@ -1,0 +1,2521 @@
+<!doctype html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Đếm Ngày Yêu - Kỷ Niệm Tình Yêu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root{
+            --pink1:#ff9aa2;
+            --pink2:#ffb7c5;
+            --pink3:#ffcfdf;
+            --accent:#ff6b81;
+            --glass: rgba(255,255,255,0.12);
+            --text: #fff;
+            --shadow: 0 10px 40px rgba(255,105,135,0.08);
+            --gold: #ffd700;
+            --liquid1: rgba(255,154,162,0.7);
+            --liquid2: rgba(255,183,197,0.5);
+            --liquid3: rgba(255,207,223,0.3);
+        }
+        *{box-sizing:border-box;margin:0;padding:0}
+        html,body{height:100%}
+        body{
+            font-family:'Poppins',system-ui,Segoe UI,Roboto,Helvetica,Arial;
+            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+            overflow:auto;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            perspective:1200px;
+            user-select: none;
+            position: relative;
+            padding: 20px 0;
+        }
+
+        /* Liquid Glass Background */
+        .liquid-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .liquid-shape {
+            position: absolute;
+            border-radius: 40% 60% 60% 40% / 60% 30% 70% 40%;
+            background: var(--liquid1);
+            filter: blur(40px);
+            opacity: 0.7;
+            animation: liquidMove 15s infinite linear;
+        }
+
+        .liquid-shape:nth-child(1) {
+            width: 500px;
+            height: 500px;
+            top: -100px;
+            left: -100px;
+            background: var(--liquid1);
+            animation-duration: 20s;
+        }
+
+        .liquid-shape:nth-child(2) {
+            width: 400px;
+            height: 400px;
+            bottom: -100px;
+            right: -100px;
+            background: var(--liquid2);
+            animation-duration: 25s;
+            animation-direction: reverse;
+        }
+
+        .liquid-shape:nth-child(3) {
+            width: 300px;
+            height: 300px;
+            top: 50%;
+            left: 70%;
+            background: var(--liquid3);
+            animation-duration: 30s;
+        }
+
+        @keyframes liquidMove {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+                border-radius: 40% 60% 60% 40% / 60% 30% 70% 40%;
+            }
+            33% {
+                transform: translate(30px, -50px) rotate(120deg);
+                border-radius: 60% 40% 30% 70% / 40% 50% 60% 50%;
+            }
+            66% {
+                transform: translate(-20px, 20px) rotate(240deg);
+                border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+            }
+            100% {
+                transform: translate(0, 0) rotate(360deg);
+                border-radius: 40% 60% 60% 40% / 60% 30% 70% 40%;
+            }
+        }
+
+        /* animated moving gradient overlay */
+        .bg-moving{
+            position:fixed;inset:0;z-index:1;pointer-events:none;
+            background:linear-gradient(60deg, rgba(255,255,255,0.03), transparent 20%, rgba(101, 0, 37, 0.02));
+            mix-blend-mode:overlay;
+            animation: drift 18s linear infinite;
+        }
+        @keyframes drift{
+            0%{transform:translateX(-10%) rotate(0deg)}
+            50%{transform:translateX(10%) rotate(3deg)}
+            100%{transform:translateX(-10%) rotate(0deg)}
+        }
+
+        /* Main Container */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Navigation */
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .nav-tab {
+            padding: 12px 20px;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 50px;
+            color: rgb(235, 0, 188);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.2);
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-tab:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-3px);
+        }
+
+        .nav-tab.active {
+            background: var(--accent);
+            box-shadow: 0 5px 15px rgba(255,107,129,0.4);
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Home Tab */
+        .wrap{
+            position:relative;
+            z-index:2;
+            width:100%;
+            max-width:1100px;
+            padding:48px;
+            display:flex;
+            gap:36px;
+            align-items:center;
+            justify-content:center;
+            transform-style:preserve-3d;
+            rotate:0deg;
+        }
+
+        /* left: heart clock */
+        .heart-clock{
+            width:360px;height:360px;
+            display:grid;place-items:center;
+            transform-style:preserve-3d;
+            transition:transform .6s;
+            filter: drop-shadow(0 15px 25px rgba(0,0,0,0.1));
+        }
+
+        /* 3D layered heart using SVG and multiple shadows for depth */
+        .heart-3d{
+            width:260px;height:260px;
+            transform-style:preserve-3d;
+            animation: slow-tilt 8s ease-in-out infinite;
+            position:relative;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        @keyframes slow-tilt{
+            0%{transform:rotateX(8deg) rotateY(-6deg) rotateZ(0)}
+            50%{transform:rotateX(-6deg) rotateY(6deg) rotateZ(6deg)}
+            100%{transform:rotateX(8deg) rotateY(-6deg) rotateZ(0)}
+        }
+
+        .heart-3d .layer{
+            position:absolute;inset:0;
+            display:block;
+            border-radius:50%;
+            filter:drop-shadow(0 6px 12px rgba(0,0,0,0.12));
+            transform-origin:center;
+            transition: all 0.5s ease;
+            clip-path: path("M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402m5.726-20.583c-2.203 0-4.446 1.042-5.726 3.238-1.285-2.206-3.522-3.248-5.719-3.248-3.183 0-6.281 2.187-6.281 6.191 0 4.661 5.571 9.429 12 15.809 6.43-6.38 12-11.148 12-15.809 0-4.011-3.095-6.181-6.274-6.181");
+        }
+        .layer.back{
+            background:linear-gradient(145deg,#ff6b81,#ff9aa2);
+            transform:translateZ(-18px) scale(0.98) skewY(-2deg);
+            opacity: 0.8;
+        }
+        .layer.mid{
+            background:linear-gradient(140deg,#ff8aa0,#db002c); 
+            transform:translateZ(-8px) scale(0.995);
+            opacity: 0.9;
+        }
+        .layer.top{
+            background: radial-gradient(circle at 30% 25%, rgba(255,255,255,0.35), transparent 20%),
+                                    linear-gradient(150deg,#ff6b81,#ff8aa0 60%,#e90844);
+            transform:translateZ(6px);
+            display:flex;align-items:center;justify-content:center;
+            color:var(--text); font-weight:700;
+            box-shadow: 0 8px 30px rgba(255,105,135,0.22), inset 0 -6px 18px rgba(0,0,0,0.06);
+            opacity: 1;
+        }
+
+        .time-content{
+            text-align:center;
+            transform:translateZ(26px) scale(1);
+            display:block;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .time-title{
+            font-size:16px;
+            opacity:0.95;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+        }
+        .time-nums{
+            font-size:28px;
+            letter-spacing:0.06em;
+            margin-top:8px;
+            font-weight: 700;
+            background: linear-gradient(45deg, #ff01b7, #c6028e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 2px 3px rgba(0,0,0,0.2));
+        }
+        .since{
+            font-size:12px;
+            opacity:0.85;
+            margin-top:6px;
+            letter-spacing: 0.5px;
+        }
+
+        /* pulsing heart beat effect synced by JS */
+        .beat{
+            animation: heartbeat 1s ease-in-out infinite;
+            transform-origin:center;
+        }
+        @keyframes heartbeat{
+            0%{transform:scale(1)}
+            20%{transform:scale(1.08)}
+            40%{transform:scale(0.98)}
+            60%{transform:scale(1.06)}
+            100%{transform:scale(1)}
+        }
+
+        /* right: stats panel */
+        .panel{
+            width:360px;
+            padding:28px;
+            border-radius:24px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.06));
+            backdrop-filter: blur(12px);
+            box-shadow: var(--shadow);
+            color:var(--text);
+            transform:translateZ(60px);
+            transition: all 0.5s ease;
+            border: 1px solid rgba(255,255,255,0.15);
+            position: relative;
+            overflow: hidden;
+        }
+        .panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+        }
+        .panel:hover {
+            transform: translateZ(60px) scale(1.02);
+            box-shadow: 0 20px 50px rgba(255,105,135,0.15);
+        }
+        .panel h1{
+            font-size:22px;
+            margin-bottom:15px;
+            text-align: center;
+            letter-spacing: 1px;
+            background: linear-gradient(45deg, #fff, #ffe6ea);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 2px 3px rgba(0,0,0,0.2));
+        }
+        .big{
+            font-size:48px;
+            font-weight:700; 
+            margin:10px 0;
+            text-align: center;
+            background: linear-gradient(45deg, #fff, #ffe6ea);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 2px 3px rgba(0,0,0,0.2));
+            letter-spacing: 1px;
+        }
+        .small{
+            opacity:0.95;
+            font-size:15px;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+        .meta{
+            margin-top:12px;
+            font-size:13px;
+            opacity:0.9;
+            text-align: center;
+        }
+        
+        /* Avatars Container */
+        .avatars-container {
+            margin-top: 20px;
+            display: none;
+        }
+        .avatars-container .avatars-inner {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            align-items: center;
+        }
+        .avatar-item {
+            text-align: center;
+        }
+        .avatar-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            margin: 0 auto 8px;
+            overflow: hidden;
+            border: 3px solid rgba(255,107,129,0.5);
+            position: relative;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .avatar-circle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(255,107,129,0.4);
+        }
+        .avatar-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .avatar-name {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+        .heart-icon {
+            font-size: 24px;
+            color: var(--accent);
+        }
+        
+        /* Avatar preview in settings */
+        .avatar-preview {
+            margin-top: 10px;
+            display: none;
+        }
+        .avatar-preview img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent);
+        }
+
+        /* milestones section */
+        .milestones {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .milestone {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+            padding: 8px 12px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+        .milestone:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        .milestone.completed {
+            color: var(--gold);
+            font-weight: 500;
+            background: rgba(255,215,0,0.1);
+        }
+        .milestone .date {
+            opacity: 0.8;
+        }
+
+        /* Zodiac Panel */
+        .zodiac-panel {
+            width: 280px;
+            padding: 20px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.06));
+            backdrop-filter: blur(12px);
+            box-shadow: var(--shadow);
+            color: var(--text);
+            transform: translateZ(60px);
+            transition: all 0.5s ease;
+            border: 1px solid rgba(255,255,255,0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .zodiac-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+        }
+
+        .zodiac-panel:hover {
+            transform: translateZ(60px) scale(1.02);
+            box-shadow: 0 20px 50px rgba(255,105,135,0.15);
+        }
+
+        .zodiac-panel h2 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            text-align: center;
+            letter-spacing: 1px;
+            background: linear-gradient(45deg, #fff, #ffe6ea);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 2px 3px rgba(0,0,0,0.2));
+        }
+
+        .zodiac-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .zodiac-sign {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 12px 8px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.05);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .zodiac-sign:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-3px);
+        }
+
+        .zodiac-sign.active {
+            background: rgba(255,107,129,0.2);
+            box-shadow: 0 0 15px rgba(255,107,129,0.4);
+        }
+
+        .zodiac-icon {
+            font-size: 20px;
+            margin-bottom: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .zodiac-sign:hover .zodiac-icon {
+            transform: scale(1.2);
+        }
+
+        .zodiac-name {
+            font-size: 10px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .zodiac-details {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.05);
+            display: none;
+        }
+
+        .zodiac-details.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .zodiac-title {
+            font-size: 14px;
+            margin-bottom: 8px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .zodiac-description {
+            font-size: 11px;
+            line-height: 1.4;
+            text-align: center;
+        }
+
+        /* Timeline Tab */
+        .timeline-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: rgba(255,255,255,0.2);
+            transform: translateX(-50%);
+        }
+
+        .timeline-event {
+            position: relative;
+            margin-bottom: 40px;
+            width: 50%;
+            padding: 20px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .timeline-event:nth-child(odd) {
+            left: 0;
+        }
+
+        .timeline-event:nth-child(even) {
+            left: 50%;
+        }
+
+        .timeline-event::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 10px var(--accent);
+        }
+
+        .timeline-event:nth-child(odd)::before {
+            right: -10px;
+        }
+
+        .timeline-event:nth-child(even)::before {
+            left: -10px;
+        }
+
+        .event-date {
+            font-size: 14px;
+            color: var(--gold);
+            margin-bottom: 10px;
+        }
+
+        .event-title {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .event-description {
+            font-size: 14px;
+            line-height: 1.5;
+            color: rgba(255,255,255,0.8);
+        }
+
+        .add-event-btn {
+            display: block;
+            margin: 30px auto;
+            padding: 12px 25px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .add-event-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255,107,129,0.4);
+        }
+
+        /* Love Map Tab */
+        .map-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            height: 500px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .map-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+        }
+
+        .map-placeholder i {
+            font-size: 60px;
+            margin-bottom: 20px;
+            color: var(--accent);
+        }
+
+        .map-placeholder h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .map-placeholder p {
+            font-size: 16px;
+            opacity: 0.8;
+            max-width: 500px;
+        }
+
+        /* Love Letters Tab */
+        .letters-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .love-letter {
+            background: rgba(255,255,255,0.08);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            backdrop-filter: blur(10px);
+            border-left: 4px solid var(--accent);
+        }
+
+        .letter-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .letter-content {
+            font-size: 16px;
+            line-height: 1.6;
+            color: white;
+        }
+
+        .add-letter-btn {
+            display: block;
+            margin: 30px auto;
+            padding: 12px 25px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .add-letter-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255,107,129,0.4);
+        }
+
+        /* Statistics Tab */
+        .stats-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.08);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .stat-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+            color: var(--accent);
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #fff, #ffe6ea);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            font-size: 16px;
+            color: rgba(255,255,255,0.8);
+        }
+
+        /* floating hearts */
+        .heart-float{
+            position:fixed;
+            inset:0;
+            pointer-events:none;
+            z-index:1;
+            overflow:hidden
+        }
+        .heart-float .h{
+            position:absolute;
+            width:36px;
+            height:36px;
+            transform-origin:center;
+            animation: floatUp linear infinite;
+            opacity:0.95;
+            mix-blend-mode:screen;
+        }
+        .heart-float .h svg{
+            width:100%;
+            height:100%;
+            display:block;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+        @keyframes floatUp{
+            0%{transform:translateY(110vh) scale(0.8) rotate(0deg); opacity:0}
+            10%{opacity:0.95}
+            50%{opacity:0.9}
+            100%{transform:translateY(-30vh) scale(1.2) rotate(200deg); opacity:0}
+        }
+
+        /* Floating Memory Photos */
+        .floating-photos {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .memory-photo {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            border: 2px solid rgba(255,255,255,0.3);
+            animation: floatAround 20s infinite linear;
+            transform-style: preserve-3d;
+            backdrop-filter: blur(5px);
+            background: rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .memory-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 13px;
+        }
+
+        .memory-photo::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
+            border-radius: 13px;
+            z-index: 1;
+        }
+
+        .memory-photo:hover {
+            transform: scale(1.1);
+            z-index: 10;
+            pointer-events: auto;
+        }
+
+        .memory-photo .delete-btn {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 20px;
+            height: 20px;
+            background: #ff4757;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 2;
+        }
+
+        .memory-photo:hover .delete-btn {
+            opacity: 1;
+        }
+
+        @keyframes floatAround {
+            0% {
+                transform: translate(0, 0) rotate(0deg) scale(1);
+            }
+            25% {
+                transform: translate(calc(100vw - 100px), calc(50vh - 50px)) rotate(90deg) scale(1.1);
+            }
+            50% {
+                transform: translate(calc(100vw - 100px), calc(100vh - 100px)) rotate(180deg) scale(0.9);
+            }
+            75% {
+                transform: translate(0, calc(100vh - 100px)) rotate(270deg) scale(1.05);
+            }
+            100% {
+                transform: translate(0, 0) rotate(360deg) scale(1);
+            }
+        }
+
+        /* settings panel */
+        .settings-panel {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10;
+        }
+        .settings-btn {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .settings-btn:hover {
+            transform: rotate(30deg) scale(1.1);
+            background: rgba(255,255,255,0.2);
+        }
+        
+        /* modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+        .modal.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        .modal-content {
+            background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05));
+            backdrop-filter: blur(15px);
+            border-radius: 24px;
+            padding: 30px;
+            width: 90%;
+            max-width: 600px;
+            color: white;
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .modal.active .modal-content {
+            transform: translateY(0);
+        }
+        .modal h2 {
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 500;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.1);
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+        }
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: rgba(255,255,255,0.4);
+            background: rgba(255,255,255,0.15);
+        }
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+        .btn-secondary {
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* celebration effect */
+        .celebration {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .celebration.active {
+            opacity: 1;
+        }
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: var(--accent);
+            top: -10px;
+            opacity: 0;
+        }
+        
+        /* photo frame */
+        .photo-frame {
+            width: 120px;
+            height: 120px;
+            border-radius: 20px;
+            overflow: hidden;
+            margin: 0 auto 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border: 5px solid rgba(255,255,255,0.2);
+            position: relative;
+            display: none;
+        }
+        .photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .photo-frame.active {
+            display: block;
+            animation: photoAppear 1s ease forwards;
+        }
+        @keyframes photoAppear {
+            0% { transform: scale(0) rotate(-180deg); opacity: 0; }
+            100% { transform: scale(1) rotate(0); opacity: 1; }
+        }
+
+        /* music player */
+        .music-player {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 10;
+        }
+        .music-btn {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .music-btn:hover {
+            transform: scale(1.1);
+            background: rgba(255,255,255,0.2);
+        }
+
+        /* Spotify Playlist */
+        .spotify-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .spotify-iframe {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        /* quote section */
+        .quote {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 15px;
+            background: rgba(255,255,255,0.1);
+            font-style: italic;
+            text-align: center;
+            font-size: 14px;
+            position: relative;
+        }
+        .quote::before, .quote::after {
+            content: '"';
+            font-size: 24px;
+            opacity: 0.7;
+            position: absolute;
+        }
+        .quote::before {
+            top: 5px;
+            left: 10px;
+        }
+        .quote::after {
+            bottom: 5px;
+            right: 10px;
+        }
+
+        /* decorative elements */
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+            animation: sparkle 3s infinite;
+            opacity: 0;
+        }
+        
+        @keyframes sparkle {
+            0% { opacity: 0; transform: scale(0) rotate(0deg); }
+            50% { opacity: 1; transform: scale(1) rotate(180deg); }
+            100% { opacity: 0; transform: scale(0) rotate(360deg); }
+        }
+
+        /* Holiday Effects */
+        .holiday-effects {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        .holiday-effects.active {
+            opacity: 1;
+        }
+
+        .holiday-particle {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        /* Tet Effect */
+        .tet-effect .holiday-particle {
+            background: linear-gradient(45deg, #ff0000, #ffd700);
+            animation: fall linear infinite;
+        }
+
+        /* Valentine Effect */
+        .valentine-effect .holiday-particle {
+            background: linear-gradient(45deg, #ff6b81, #ffd0df);
+            animation: float linear infinite;
+            border-radius: 50% 50% 0 0;
+            transform: rotate(45deg);
+        }
+
+        /* Mid-Autumn Effect */
+        .mid-autumn-effect .holiday-particle {
+            background: radial-gradient(circle at 30% 30%, #ffd700, #ff9800);
+            animation: glow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-100px) rotate(0deg); }
+            100% { transform: translateY(100vh) rotate(360deg); }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) translateX(0) rotate(45deg); }
+            50% { transform: translateY(-20px) translateX(10px) rotate(45deg); }
+            100% { transform: translateY(0) translateX(0) rotate(45deg); }
+        }
+
+        @keyframes glow {
+            0% { box-shadow: 0 0 10px #ffd700; }
+            100% { box-shadow: 0 0 30px #ff9800, 0 0 50px #ff9800; }
+        }
+
+        /* responsiveness */
+        @media (max-width: 1100px) {
+            .wrap {
+                flex-wrap: wrap;
+                gap: 20px;
+            }
+            .panel, .zodiac-panel, .heart-clock {
+                width: 45%;
+            }
+            .timeline-event {
+                width: 100%;
+                left: 0 !important;
+            }
+            .timeline::before {
+                left: 20px;
+            }
+            .timeline-event::before {
+                left: 10px !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .wrap {
+                flex-direction: column;
+                padding: 20px;
+                gap: 20px;
+            }
+            .panel, .zodiac-panel, .heart-clock {
+                width: 100%;
+            }
+            .settings-panel {
+                top: 10px;
+                right: 10px;
+            }
+            .music-player {
+                bottom: 10px;
+                left: 10px;
+            }
+            .nav-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            .nav-tab {
+                width: 100%;
+                max-width: 250px;
+                justify-content: center;
+            }
+            .avatars-container .avatars-inner {
+                gap: 15px;
+            }
+            .avatar-circle {
+                width: 60px;
+                height: 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="liquid-bg">
+        <div class="liquid-shape"></div>
+        <div class="liquid-shape"></div>
+        <div class="liquid-shape"></div>
+    </div>
+
+    <div class="bg-moving"></div>
+
+    <div class="container">
+        <!-- Navigation Tabs -->
+        <div class="nav-tabs">
+            <div class="nav-tab active" data-tab="home">
+                <i class="fas fa-home"></i> Trang Chủ
+            </div>
+            <div class="nav-tab" data-tab="timeline">
+                <i class="fas fa-history"></i> Dòng Thời Gian
+            </div>
+            <div class="nav-tab" data-tab="music">
+                <i class="fas fa-music"></i> Nhạc Tình Yêu
+            </div>
+            <div class="nav-tab" data-tab="map">
+                <i class="fas fa-map-marked-alt"></i> Bản Đồ Tình Yêu
+            </div>
+            <div class="nav-tab" data-tab="letters">
+                <i class="fas fa-envelope"></i> Hộp Thư Tình
+            </div>
+            <div class="nav-tab" data-tab="stats">
+                <i class="fas fa-chart-bar"></i> Thống Kê
+            </div>
+        </div>
+
+        <!-- Home Tab -->
+        <div class="tab-content active" id="home-tab">
+            <div class="wrap" aria-live="polite">
+                <div class="heart-clock">
+                    <div class="heart-3d beat" id="heart">
+                        <div class="layer back"></div>
+                        <div class="layer mid"></div>
+                        <div class="layer top">
+                            <div class="time-content">
+                                <div class="time-title">ĐÃ YÊU NHAU</div>
+                                <div class="time-nums" id="timeNums">0 ngày 00:00:00</div>
+                                <div class="since" id="sinceText">từ 07/04/2025</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <h1><i class="fas fa-heart"></i> ĐẾM NGÀY YÊU <i class="fas fa-heart"></i></h1>
+                    <div class="big" id="daysBig">0</div>
+                    <div class="small" id="detailBig">ngày — <span id="hms">00:00:00</span></div>
+                    <div class="meta" id="meta">Ngày bắt đầu: 07/04/2025</div>
+                    
+                    <!-- Ảnh đại diện -->
+                    <div class="avatars-container" id="avatarsContainer">
+                        <div class="avatars-inner">
+                            <div class="avatar-item">
+                                <div class="avatar-circle" id="userAvatarDisplay">
+                                    <img src="" alt="Ảnh của bạn">
+                                </div>
+                                <div class="avatar-name" id="userName">Hoàng Anh</div>
+                            </div>
+                            
+                            <div class="heart-icon">
+                                <i class="fas fa-heart"></i>
+                            </div>
+                            
+                            <div class="avatar-item">
+                                <div class="avatar-circle" id="loverAvatarDisplay">
+                                    <img src="" alt="Ảnh người yêu">
+                                </div>
+                                <div class="avatar-name" id="loverName">Người yêu</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="milestones">
+                        <div class="milestone" id="milestone1">
+                            <span><i class="fas fa-gift"></i> 100 ngày</span>
+                            <span class="date">-</span>
+                        </div>
+                        <div class="milestone" id="milestone2">
+                            <span><i class="fas fa-heart"></i> 6 tháng</span>
+                            <span class="date">-</span>
+                        </div>
+                        <div class="milestone" id="milestone3">
+                            <span><i class="fas fa-star"></i> 1 năm</span>
+                            <span class="date">-</span>
+                        </div>
+                    </div>
+                    
+                    <div class="quote" id="quote">
+                        Yêu vợ Trân
+                    </div>
+                </div>
+
+                <div class="zodiac-panel">
+                    <h2><i class="fas fa-star"></i> CUNG HOÀNG ĐẠO <i class="fas fa-star"></i></h2>
+                    <div class="zodiac-grid" id="zodiacGrid">
+                        <!-- Zodiac signs will be added by JavaScript -->
+                    </div>
+                    <div class="zodiac-details" id="zodiacDetails">
+                        <div class="zodiac-title" id="zodiacTitle">Chọn cung hoàng đạo</div>
+                        <div class="zodiac-description" id="zodiacDescription">
+                            Nhấn vào một cung hoàng đạo để xem mô tả chi tiết
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Timeline Tab -->
+        <div class="tab-content" id="timeline-tab">
+            <div class="timeline-container">
+                <h2 style="text-align: center; margin-bottom: 30px; color: white;">
+                    <i class="fas fa-history"></i> Dòng Thời Gian Kỷ Niệm
+                </h2>
+                <div class="timeline" id="timeline">
+                    <!-- Timeline events will be added by JavaScript -->
+                </div>
+                <button class="add-event-btn" id="addEventBtn">
+                    <i class="fas fa-plus"></i> Thêm Kỷ Niệm
+                </button>
+            </div>
+        </div>
+
+        <!-- Music Tab -->
+        <div class="tab-content" id="music-tab">
+            <div class="spotify-container">
+                <h2 style="text-align: center; margin-bottom: 30px; color: white;">
+                    <i class="fab fa-spotify"></i> Playlist Tình Yêu Của Chúng Mình
+                </h2>
+                <div class="spotify-iframe">
+                    <iframe 
+                        style="border-radius:12px" 
+                        src="https://open.spotify.com/embed/playlist/6hDbNvpnCAKOB1NbHSGAgV?utm_source=generator" 
+                        width="100%" 
+                        height="352" 
+                        frameBorder="0" 
+                        allowfullscreen="" 
+                        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                        loading="lazy">
+                    </iframe>
+                </div>
+                <div style="text-align: center; margin-top: 20px; color: rgba(255,255,255,0.7); font-size: 14px;">
+                    <p>Thưởng thức những bản nhạc tình yêu đặc biệt của chúng mình</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Map Tab -->
+        <div class="tab-content" id="map-tab">
+            <h2 style="text-align: center; margin-bottom: 30px; color: white;">
+                <i class="fas fa-map-marked-alt"></i> Bản Đồ Tình Yêu
+            </h2>
+            <div class="map-container">
+                <div class="map-placeholder">
+                    <i class="fas fa-heart"></i>
+                    <h3>Bản Đồ Tình Yêu Của Chúng Ta</h3>
+                    <p>Nơi lưu giữ những địa điểm đặc biệt trong hành trình tình yêu của chúng ta. 
+                    Những nơi chúng ta đã đến, những kỷ niệm chúng ta đã tạo ra.</p>
+                    <p style="margin-top: 20px;"><em>Tính năng này sẽ hiển thị các địa điểm quan trọng trên bản đồ</em></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Love Letters Tab -->
+        <div class="tab-content" id="letters-tab">
+            <div class="letters-container">
+                <h2 style="text-align: center; margin-bottom: 30px; color: white;">
+                    <i class="fas fa-envelope"></i> Hộp Thư Tình
+                </h2>
+                <div id="loveLetters">
+                    <!-- Love letters will be added by JavaScript -->
+                </div>
+                <button class="add-letter-btn" id="addLetterBtn">
+                    <i class="fas fa-plus"></i> Viết Thư Tình
+                </button>
+            </div>
+        </div>
+
+        <!-- Statistics Tab -->
+        <div class="tab-content" id="stats-tab">
+            <div class="stats-container">
+                <h2 style="text-align: center; margin-bottom: 30px; color: white;">
+                    <i class="fas fa-chart-bar"></i> Thống Kê Tình Yêu
+                </h2>
+                <div class="stats-grid" id="statsGrid">
+                    <!-- Statistics will be added by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="floating-photos" id="floatingPhotos"></div>
+    
+    <div class="photo-frame" id="photoFrame">
+        <img src="" alt="Ảnh kỷ niệm" id="photoImg">
+    </div>
+
+    <div class="heart-float" id="floatLayer" aria-hidden="true"></div>
+    
+    <div class="settings-panel">
+        <button class="settings-btn" id="settingsBtn"><i class="fas fa-cog"></i></button>
+    </div>
+    
+    <div class="music-player">
+        <button class="music-btn" id="musicBtn"><i class="fas fa-music"></i></button>
+    </div>
+    
+    <!-- Settings Modal -->
+    <div class="modal" id="settingsModal">
+        <div class="modal-content">
+            <h2><i class="fas fa-cog"></i> Cài Đặt</h2>
+            <div class="form-group">
+                <label for="startDate"><i class="fas fa-calendar-alt"></i> Ngày bắt đầu:</label>
+                <input type="date" id="startDate" value="2025-04-07">
+            </div>
+            <div class="form-group">
+                <label for="partnerName"><i class="fas fa-user"></i> Tên người yêu:</label>
+                <input type="text" id="partnerName" placeholder="Nhập tên người yêu">
+            </div>
+            <div class="form-group">
+                <label for="userAvatar"><i class="fas fa-user"></i> Ảnh đại diện của bạn:</label>
+                <input type="file" id="userAvatar" accept="image/*">
+                <div class="avatar-preview" id="userAvatarPreview">
+                    <img src="" alt="Ảnh của bạn">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="loverAvatar"><i class="fas fa-heart"></i> Ảnh đại diện người yêu:</label>
+                <input type="file" id="loverAvatar" accept="image/*">
+                <div class="avatar-preview" id="loverAvatarPreview">
+                    <img src="" alt="Ảnh người yêu">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="photoUpload"><i class="fas fa-image"></i> Tải ảnh kỷ niệm:</label>
+                <input type="file" id="photoUpload" accept="image/*" multiple>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-secondary" id="cancelBtn"><i class="fas fa-times"></i> Hủy</button>
+                <button class="btn btn-primary" id="saveBtn"><i class="fas fa-save"></i> Lưu</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Event Modal -->
+    <div class="modal" id="eventModal">
+        <div class="modal-content">
+            <h2><i class="fas fa-plus"></i> Thêm Kỷ Niệm</h2>
+            <div class="form-group">
+                <label for="eventDate">Ngày:</label>
+                <input type="date" id="eventDate">
+            </div>
+            <div class="form-group">
+                <label for="eventTitle">Tiêu đề:</label>
+                <input type="text" id="eventTitle" placeholder="Nhập tiêu đề kỷ niệm">
+            </div>
+            <div class="form-group">
+                <label for="eventDescription">Mô tả:</label>
+                <textarea id="eventDescription" placeholder="Mô tả kỷ niệm của bạn"></textarea>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-secondary" id="cancelEventBtn"><i class="fas fa-times"></i> Hủy</button>
+                <button class="btn btn-primary" id="saveEventBtn"><i class="fas fa-save"></i> Lưu</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Letter Modal -->
+    <div class="modal" id="letterModal">
+        <div class="modal-content">
+            <h2><i class="fas fa-envelope"></i> Viết Thư Tình</h2>
+            <div class="form-group">
+                <label for="letterTitle">Tiêu đề:</label>
+                <input type="text" id="letterTitle" placeholder="Tiêu đề thư">
+            </div>
+            <div class="form-group">
+                <label for="letterContent">Nội dung:</label>
+                <textarea id="letterContent" placeholder="Viết thư tình của bạn ở đây..."></textarea>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-secondary" id="cancelLetterBtn"><i class="fas fa-times"></i> Hủy</button>
+                <button class="btn btn-primary" id="saveLetterBtn"><i class="fas fa-save"></i> Lưu</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="celebration" id="celebration"></div>
+
+    <div class="holiday-effects" id="holidayEffects"></div>
+
+    <script>
+        // Khởi tạo các biến và phần tử DOM
+        let start = new Date(2025, 3, 7, 0, 0, 0); // monthIndex 3 = April
+        const timeNums = document.getElementById('timeNums');
+        const sinceText = document.getElementById('sinceText');
+        const daysBig = document.getElementById('daysBig');
+        const hms = document.getElementById('hms');
+        const heart = document.getElementById('heart');
+        const settingsBtn = document.getElementById('settingsBtn');
+        const settingsModal = document.getElementById('settingsModal');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const saveBtn = document.getElementById('saveBtn');
+        const startDate = document.getElementById('startDate');
+        const partnerName = document.getElementById('partnerName');
+        const photoUpload = document.getElementById('photoUpload');
+        const photoFrame = document.getElementById('photoFrame');
+        const photoImg = document.getElementById('photoImg');
+        const celebration = document.getElementById('celebration');
+        const musicBtn = document.getElementById('musicBtn');
+        const quote = document.getElementById('quote');
+        const zodiacGrid = document.getElementById('zodiacGrid');
+        const zodiacDetails = document.getElementById('zodiacDetails');
+        const zodiacTitle = document.getElementById('zodiacTitle');
+        const zodiacDescription = document.getElementById('zodiacDescription');
+        const holidayEffects = document.getElementById('holidayEffects');
+        const floatingPhotos = document.getElementById('floatingPhotos');
+        const navTabs = document.querySelectorAll('.nav-tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+        const timeline = document.getElementById('timeline');
+        const addEventBtn = document.getElementById('addEventBtn');
+        const eventModal = document.getElementById('eventModal');
+        const cancelEventBtn = document.getElementById('cancelEventBtn');
+        const saveEventBtn = document.getElementById('saveEventBtn');
+        const eventDate = document.getElementById('eventDate');
+        const eventTitle = document.getElementById('eventTitle');
+        const eventDescription = document.getElementById('eventDescription');
+        const loveLetters = document.getElementById('loveLetters');
+        const addLetterBtn = document.getElementById('addLetterBtn');
+        const letterModal = document.getElementById('letterModal');
+        const cancelLetterBtn = document.getElementById('cancelLetterBtn');
+        const saveLetterBtn = document.getElementById('saveLetterBtn');
+        const letterTitle = document.getElementById('letterTitle');
+        const letterContent = document.getElementById('letterContent');
+        const statsGrid = document.getElementById('statsGrid');
+        
+        // Biến mới cho ảnh đại diện
+        const userAvatar = document.getElementById('userAvatar');
+        const loverAvatar = document.getElementById('loverAvatar');
+        const userAvatarPreview = document.getElementById('userAvatarPreview');
+        const loverAvatarPreview = document.getElementById('loverAvatarPreview');
+        const avatarsContainer = document.getElementById('avatarsContainer');
+        const userAvatarDisplay = document.getElementById('userAvatarDisplay');
+        const loverAvatarDisplay = document.getElementById('loverAvatarDisplay');
+        const userName = document.getElementById('userName');
+        const loverName = document.getElementById('loverName');
+        
+        const milestones = [
+            { id: 'milestone1', days: 100, text: '100 ngày' },
+            { id: 'milestone2', days: 182, text: '6 tháng' },
+            { id: 'milestone3', days: 365, text: '1 năm' }
+        ];
+
+        // Danh sách các câu trích dẫn về tình yêu
+        const loveQuotes = [
+            "Tình yêu không phải là nhìn chằm chằm vào nhau, mà là cùng nhau nhìn về một hướng",
+            "Yêu là tìm thấy sự bình yên trong trái tim của ai đó",
+            "Tình yêu không cần phải hoàn hảo, nó chỉ cần chân thành",
+            "Trong ánh mắt em, tôi tìm thấy cả thiên đường",
+            "Yêu là khi hạnh phúc của người khác quan trọng hơn hạnh phúc của chính mình",
+            "Tình yêu không đo bằng thời gian mà bằng trái tim",
+            "Cùng nhau là khởi đầu, giữ nhau là tiến triển, làm việc cùng nhau là thành công"
+        ];
+
+        // Danh sách các cung hoàng đạo
+        const zodiacSigns = [
+            { name: "Bạch Dương", icon: "♈", dates: "21/3 - 19/4", description: "Năng động, nhiệt tình và can đảm. Bạch Dương luôn sẵn sàng dẫn đầu và khám phá những chân trời mới." },
+            { name: "Kim Ngưu", icon: "♉", dates: "20/4 - 20/5", description: "Kiên định, đáng tin cậy và yêu thích sự ổn định. Kim Ngưu biết cách tận hưởng những điều tốt đẹp trong cuộc sống." },
+            { name: "Song Tử", icon: "♊", dates: "21/5 - 21/6", description: "Thông minh, linh hoạt và giao tiếp tốt. Song Tử luôn tò mò và thích khám phá những điều mới mẻ." },
+            { name: "Cự Giải", icon: "♋", dates: "22/6 - 22/7", description: "Nhạy cảm, trực giác tốt và quan tâm đến gia đình. Cự Giải có trái tim ấm áp và sự đồng cảm sâu sắc." },
+            { name: "Sư Tử", icon: "♌", dates: "23/7 - 22/8", description: "Tự tin, hào phóng và sáng tạo. Sư Tử tỏa sáng như mặt trời và thu hút mọi ánh nhìn." },
+            { name: "Xử Nữ", icon: "♍", dates: "23/8 - 22/9", description: "Tỉ mỉ, thông minh và có óc phân tích. Xử Nữ luôn hướng đến sự hoàn hảo trong mọi việc." },
+            { name: "Thiên Bình", icon: "♎", dates: "23/9 - 23/10", description: "Công bằng, hài hòa và yêu thích cái đẹp. Thiên Bình luôn tìm kiếm sự cân bằng trong cuộc sống." },
+            { name: "Bọ Cạp", icon: "♏", dates: "24/10 - 22/11", description: "Đam mê, quyết đoán và bí ẩn. Bọ Cạp có sức mạnh nội tâm và khả năng phục hồi đáng kinh ngạc." },
+            { name: "Nhân Mã", icon: "♐", dates: "23/11 - 21/12", description: "Lạc quan, yêu tự do và thích phiêu lưu. Nhân Mã luôn hướng về những chân trời mới." },
+            { name: "Ma Kết", icon: "♑", dates: "22/12 - 19/1", description: "Kiên trì, có trách nhiệm và tham vọng. Ma Kết biết cách biến ước mơ thành hiện thực." },
+            { name: "Bảo Bình", icon: "♒", dates: "20/1 - 18/2", description: "Độc lập, sáng tạo và nhân đạo. Bảo Bình luôn hướng đến tương lai và những ý tưởng mới." },
+            { name: "Song Ngư", icon: "♓", dates: "19/2 - 20/3", description: "Nhạy cảm, sáng tạo và đồng cảm. Song Ngư có trí tưởng tượng phong phú và trái tim nhân hậu." }
+        ];
+
+        // Ngày lễ Việt Nam
+        const vietnameseHolidays = [
+            { name: "Tết Nguyên Đán", date: "02/10", effect: "tet" }, // Ví dụ: 10/2
+            { name: "Valentine", date: "02/14", effect: "valentine" },
+            { name: "Quốc tế Phụ nữ", date: "03/08", effect: "valentine" },
+            { name: "Giỗ Tổ Hùng Vương", date: "04/10", effect: "tet" }, // Ví dụ: 10/4 (âm lịch)
+            { name: "Ngày Thống nhất", date: "04/30", effect: "tet" },
+            { name: "Quốc tế Lao động", date: "05/01", effect: "tet" },
+            { name: "Quốc khánh", date: "09/02", effect: "tet" },
+            { name: "Tết Trung thu", date: "09/15", effect: "mid-autumn" }, // Ví dụ: 15/8 âm lịch
+            { name: "Phụ nữ Việt Nam", date: "10/20", effect: "valentine" },
+            { name: "Nhà giáo Việt Nam", date: "11/20", effect: "valentine" },
+            { name: "Giáng sinh", date: "12/24", effect: "mid-autumn" }
+        ];
+
+        // Kiểm tra và tải dữ liệu từ localStorage
+        function loadFromStorage() {
+            const savedDate = localStorage.getItem('loveStartDate');
+            const savedName = localStorage.getItem('partnerName');
+            const savedPhotos = JSON.parse(localStorage.getItem('lovePhotos') || '[]');
+            const savedEvents = JSON.parse(localStorage.getItem('timelineEvents') || '[]');
+            const savedLetters = JSON.parse(localStorage.getItem('loveLetters') || '[]');
+            
+            // Tải ảnh đại diện
+            const savedUserAvatar = localStorage.getItem('userAvatar');
+            const savedLoverAvatar = localStorage.getItem('loverAvatar');
+            
+            if (savedDate) {
+                start = new Date(savedDate);
+                startDate.value = formatDateForInput(start);
+            }
+            
+            if (savedName) {
+                partnerName.value = savedName;
+                loverName.textContent = savedName;
+                document.title = `Đếm ngày yêu - ${savedName}`;
+            }
+            
+            if (savedPhotos.length > 0) {
+                // Hiển thị ảnh kỷ niệm bay lơ lửng
+                createFloatingPhotos(savedPhotos);
+            }
+            
+            // Tải ảnh đại diện của bạn
+            if (savedUserAvatar) {
+                userAvatarDisplay.querySelector('img').src = savedUserAvatar;
+                userAvatarPreview.querySelector('img').src = savedUserAvatar;
+                userAvatarPreview.style.display = 'block';
+                avatarsContainer.style.display = 'block';
+            }
+            
+            // Tải ảnh đại diện người yêu
+            if (savedLoverAvatar) {
+                loverAvatarDisplay.querySelector('img').src = savedLoverAvatar;
+                loverAvatarPreview.querySelector('img').src = savedLoverAvatar;
+                loverAvatarPreview.style.display = 'block';
+                avatarsContainer.style.display = 'block';
+            }
+            
+            // Tải dòng thời gian
+            if (savedEvents.length > 0) {
+                renderTimeline(savedEvents);
+            } else {
+                // Tạo sự kiện mặc định
+                const defaultEvents = [
+                    {
+                        date: formatDateForInput(start),
+                        title: "Ngày chúng ta bắt đầu",
+                        description: "Ngày đầu tiên chúng ta chính thức bên nhau. Một khởi đầu tuyệt vời cho hành trình tình yêu."
+                    }
+                ];
+                localStorage.setItem('timelineEvents', JSON.stringify(defaultEvents));
+                renderTimeline(defaultEvents);
+            }
+            
+            // Tải thư tình
+            if (savedLetters.length > 0) {
+                renderLoveLetters(savedLetters);
+            }
+            
+            updateMilestones();
+            
+            // Hiển thị câu trích dẫn ngẫu nhiên
+            showRandomQuote();
+            
+            // Khởi tạo cung hoàng đạo
+            initZodiac();
+            
+            // Kiểm tra ngày lễ
+            checkHoliday();
+            
+            // Tạo thống kê
+            createStatistics();
+            
+            // Tạo hiệu ứng trái tim xung quanh ảnh đại diện
+            setTimeout(createAvatarHearts, 500);
+        }
+
+        // Tạo hiệu ứng trái tim xung quanh ảnh đại diện
+        function createAvatarHearts() {
+            const avatars = document.querySelectorAll('.avatar-circle');
+            
+            // Xóa hiệu ứng cũ nếu có
+            avatars.forEach(avatar => {
+                const existingHearts = avatar.querySelectorAll('.avatar-heart');
+                existingHearts.forEach(heart => heart.remove());
+            });
+            
+            // Chỉ tạo hiệu ứng nếu có ảnh đại diện
+            if (avatarsContainer.style.display === 'block') {
+                avatars.forEach(avatar => {
+                    // Tạo 6 trái tim nhỏ xung quanh avatar
+                    for (let i = 0; i < 6; i++) {
+                        const heart = document.createElement('div');
+                        heart.className = 'avatar-heart';
+                        heart.innerHTML = '❤️';
+                        heart.style.position = 'absolute';
+                        heart.style.fontSize = '12px';
+                        heart.style.opacity = '0.7';
+                        heart.style.animation = `avatarHeartFloat ${3 + Math.random() * 2}s ease-in-out infinite`;
+                        heart.style.animationDelay = `${Math.random() * 2}s`;
+                        heart.style.zIndex = '1';
+                        
+                        // Tính toán vị trí trên đường tròn
+                        const angle = (i * 60) * Math.PI / 180;
+                        const radius = 50; // Khoảng cách từ tâm
+                        const x = Math.cos(angle) * radius;
+                        const y = Math.sin(angle) * radius;
+                        
+                        heart.style.left = `calc(50% + ${x}px)`;
+                        heart.style.top = `calc(50% + ${y}px)`;
+                        heart.style.transform = 'translate(-50%, -50%)';
+                        
+                        avatar.appendChild(heart);
+                    }
+                });
+            }
+        }
+
+        // Thêm keyframes cho hiệu ứng trái tim xung quanh avatar
+        const avatarHeartStyle = document.createElement('style');
+        avatarHeartStyle.textContent = `
+            @keyframes avatarHeartFloat {
+                0%, 100% {
+                    transform: translate(-50%, -50%) scale(1);
+                    opacity: 0.7;
+                }
+                50% {
+                    transform: translate(-50%, -50%) scale(1.2);
+                    opacity: 1;
+                }
+            }
+        `;
+        document.head.appendChild(avatarHeartStyle);
+
+        // Tạo ảnh kỷ niệm bay lơ lửng với nút xóa
+        function createFloatingPhotos(photos) {
+            floatingPhotos.innerHTML = '';
+            
+            photos.forEach((photo, index) => {
+                const photoElement = document.createElement('div');
+                photoElement.className = 'memory-photo';
+                photoElement.setAttribute('data-index', index);
+                photoElement.innerHTML = `
+                    <img src="${photo}" alt="Ảnh kỷ niệm">
+                    <div class="delete-btn">
+                        <i class="fas fa-times"></i>
+                    </div>
+                `;
+                
+                // Tạo hiệu ứng chuyển động ngẫu nhiên
+                const duration = 20 + Math.random() * 20;
+                const delay = Math.random() * 10;
+                const startX = Math.random() * 100;
+                const startY = Math.random() * 100;
+                
+                photoElement.style.animation = `floatAround ${duration}s ${delay}s infinite linear`;
+                photoElement.style.left = `${startX}%`;
+                photoElement.style.top = `${startY}%`;
+                
+                // Thêm sự kiện xóa ảnh
+                const deleteBtn = photoElement.querySelector('.delete-btn');
+                deleteBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    removePhoto(index);
+                });
+                
+                floatingPhotos.appendChild(photoElement);
+            });
+        }
+
+        // Xóa ảnh khỏi danh sách
+        function removePhoto(index) {
+            const savedPhotos = JSON.parse(localStorage.getItem('lovePhotos') || '[]');
+            if (index >= 0 && index < savedPhotos.length) {
+                savedPhotos.splice(index, 1);
+                localStorage.setItem('lovePhotos', JSON.stringify(savedPhotos));
+                createFloatingPhotos(savedPhotos);
+            }
+        }
+
+        // Khởi tạo cung hoàng đạo
+        function initZodiac() {
+            zodiacGrid.innerHTML = '';
+            zodiacSigns.forEach(sign => {
+                const signElement = document.createElement('div');
+                signElement.className = 'zodiac-sign';
+                signElement.innerHTML = `
+                    <div class="zodiac-icon">${sign.icon}</div>
+                    <div class="zodiac-name">${sign.name}</div>
+                `;
+                signElement.addEventListener('click', () => {
+                    // Xóa active class từ tất cả các cung
+                    document.querySelectorAll('.zodiac-sign').forEach(el => {
+                        el.classList.remove('active');
+                    });
+                    
+                    // Thêm active class cho cung được chọn
+                    signElement.classList.add('active');
+                    
+                    // Hiển thị chi tiết
+                    zodiacTitle.textContent = `${sign.icon} ${sign.name} (${sign.dates})`;
+                    zodiacDescription.textContent = sign.description;
+                    zodiacDetails.classList.add('active');
+                });
+                zodiacGrid.appendChild(signElement);
+            });
+        }
+
+        // Hiển thị dòng thời gian
+        function renderTimeline(events) {
+            timeline.innerHTML = '';
+            
+            // Sắp xếp sự kiện theo ngày (mới nhất đầu tiên)
+            events.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            events.forEach((event, index) => {
+                const eventElement = document.createElement('div');
+                eventElement.className = 'timeline-event';
+                eventElement.innerHTML = `
+                    <div class="event-date">${formatDateDisplay(event.date)}</div>
+                    <div class="event-title">${event.title}</div>
+                    <div class="event-description">${event.description}</div>
+                `;
+                timeline.appendChild(eventElement);
+            });
+        }
+
+        // Hiển thị thư tình
+        function renderLoveLetters(letters) {
+            loveLetters.innerHTML = '';
+            
+            letters.forEach((letter, index) => {
+                const letterElement = document.createElement('div');
+                letterElement.className = 'love-letter';
+                letterElement.innerHTML = `
+                    <div class="letter-header">
+                        <span>${letter.title}</span>
+                        <span>${formatDateDisplay(letter.date)}</span>
+                    </div>
+                    <div class="letter-content">${letter.content}</div>
+                `;
+                loveLetters.appendChild(letterElement);
+            });
+        }
+
+        // Tạo thống kê
+        function createStatistics() {
+            const now = new Date();
+            const diff = now - start;
+            const seconds = Math.floor(diff / 1000);
+            const minutes = Math.floor(seconds / 60);
+            const hours = Math.floor(minutes / 60);
+            const days = Math.floor(hours / 24);
+            const weeks = Math.floor(days / 7);
+            const months = Math.floor(days / 30.44);
+            const years = Math.floor(days / 365.25);
+            
+            const sunrises = days;
+            const heartbeats = Math.floor(days * 100000); // Ước tính 100,000 nhịp tim mỗi ngày
+            
+            statsGrid.innerHTML = `
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-clock"></i></div>
+                    <div class="stat-value">${days}</div>
+                    <div class="stat-label">Ngày yêu nhau</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-heartbeat"></i></div>
+                    <div class="stat-value">${(heartbeats / 1000000).toFixed(1)}M</div>
+                    <div class="stat-label">Nhịp tim vì nhau</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-sun"></i></div>
+                    <div class="stat-value">${sunrises}</div>
+                    <div class="stat-label">Bình minh cùng nhau</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-moon"></i></div>
+                    <div class="stat-value">${sunrises}</div>
+                    <div class="stat-label">Hoàng hôn bên nhau</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-kiss-wink-heart"></i></div>
+                    <div class="stat-value">${(days * 10).toLocaleString()}</div>
+                    <div class="stat-label">Nụ hôn trao nhau</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-hand-holding-heart"></i></div>
+                    <div class="stat-value">${(days * 20).toLocaleString()}</div>
+                    <div class="stat-label">Cái ôm ấm áp</div>
+                </div>
+            `;
+        }
+
+        // Kiểm tra ngày lễ
+        function checkHoliday() {
+            const now = new Date();
+            const currentDate = `${String(now.getMonth() + 1).padStart(2, '0')}/${String(now.getDate()).padStart(2, '0')}`;
+            
+            // Tìm ngày lễ hôm nay
+            const todayHoliday = vietnameseHolidays.find(holiday => holiday.date === currentDate);
+            
+            if (todayHoliday) {
+                // Áp dụng hiệu ứng ngày lễ
+                applyHolidayEffect(todayHoliday.effect, todayHoliday.name);
+            }
+        }
+
+        // Áp dụng hiệu ứng ngày lễ
+        function applyHolidayEffect(effectType, holidayName) {
+            holidayEffects.className = `holiday-effects ${effectType}-effect active`;
+            holidayEffects.innerHTML = '';
+            
+            // Tạo hiệu ứng dựa trên loại ngày lễ
+            let particleCount = 50;
+            let particleStyles = {};
+            
+            switch(effectType) {
+                case 'tet':
+                    particleCount = 100;
+                    particleStyles = {
+                        width: '10px',
+                        height: '10px',
+                        background: 'linear-gradient(45deg, #ff0000, #ffd700)'
+                    };
+                    break;
+                case 'valentine':
+                    particleCount = 30;
+                    particleStyles = {
+                        width: '20px',
+                        height: '20px',
+                        background: 'linear-gradient(45deg, #ff6b81, #ffd0df)'
+                    };
+                    break;
+                case 'mid-autumn':
+                    particleCount = 20;
+                    particleStyles = {
+                        width: '30px',
+                        height: '30px',
+                        background: 'radial-gradient(circle at 30% 30%, #ffd700, #ff9800)'
+                    };
+                    break;
+            }
+            
+            // Tạo các hạt hiệu ứng
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'holiday-particle';
+                
+                // Áp dụng kiểu dáng
+                Object.assign(particle.style, particleStyles);
+                
+                // Vị trí ngẫu nhiên
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                
+                // Thời gian animation ngẫu nhiên
+                const duration = 5 + Math.random() * 10;
+                particle.style.animationDuration = `${duration}s`;
+                
+                // Độ trễ ngẫu nhiên
+                particle.style.animationDelay = `${Math.random() * 5}s`;
+                
+                holidayEffects.appendChild(particle);
+            }
+            
+            // Hiển thị thông báo
+            setTimeout(() => {
+                alert(`Chúc mừng ${holidayName}! 🎉`);
+            }, 1000);
+        }
+
+        // Hiển thị câu trích dẫn ngẫu nhiên
+        function showRandomQuote() {
+            const randomIndex = Math.floor(Math.random() * loveQuotes.length);
+            quote.textContent = loveQuotes[randomIndex];
+        }
+
+        // Lưu dữ liệu vào localStorage
+        function saveToStorage() {
+            localStorage.setItem('loveStartDate', start.toISOString());
+            if (partnerName.value) {
+                localStorage.setItem('partnerName', partnerName.value);
+                document.title = `Đếm ngày yêu - ${partnerName.value}`;
+            }
+        }
+
+        // Định dạng ngày cho input type="date"
+        function formatDateForInput(date) {
+            if (typeof date === 'string') {
+                return date;
+            }
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        // Định dạng ngày hiển thị
+        function formatDateDisplay(dateString) {
+            const date = new Date(dateString);
+            const day = date.getDate();
+            const month = date.getMonth() + 1;
+            const year = date.getFullYear();
+            return `${day}/${month}/${year}`;
+        }
+
+        // Cập nhật các cột mốc
+        function updateMilestones() {
+            milestones.forEach(milestone => {
+                const element = document.getElementById(milestone.id);
+                const milestoneDate = new Date(start);
+                milestoneDate.setDate(milestoneDate.getDate() + milestone.days);
+                
+                const now = new Date();
+                const daysPassed = Math.floor((now - start) / (1000 * 60 * 60 * 24));
+                
+                if (daysPassed >= milestone.days) {
+                    element.classList.add('completed');
+                    element.querySelector('.date').textContent = 
+                        `${milestoneDate.getDate()}/${milestoneDate.getMonth() + 1}/${milestoneDate.getFullYear()}`;
+                } else {
+                    element.querySelector('.date').textContent = 
+                        `${milestoneDate.getDate()}/${milestoneDate.getMonth() + 1}/${milestoneDate.getFullYear()}`;
+                }
+                
+                // Kiểm tra và kích hoạt hiệu ứng nếu đạt cột mốc hôm nay
+                if (daysPassed === milestone.days) {
+                    celebrateMilestone(milestone.text);
+                }
+            });
+        }
+
+        // Hiệu ứng ăn mừng khi đạt cột mốc
+        function celebrateMilestone(milestoneText) {
+            celebration.classList.add('active');
+            createConfetti();
+            
+            // Thông báo
+            setTimeout(() => {
+                alert(`Chúc mừng! Bạn đã đạt cột mốc ${milestoneText} yêu nhau! ❤️`);
+            }, 1000);
+            
+            // Tắt hiệu ứng sau 5 giây
+            setTimeout(() => {
+                celebration.classList.remove('active');
+                celebration.innerHTML = '';
+            }, 5000);
+        }
+
+        // Tạo hiệu ứng confetti
+        function createConfetti() {
+            const colors = ['#ff5a7a', '#ff86a1', '#ffd0df', '#ff9aa2', '#ffb7c5', '#ffd700'];
+            for (let i = 0; i < 150; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animation = `fall ${Math.random() * 3 + 2}s linear forwards`;
+                celebration.appendChild(confetti);
+                
+                // Thêm keyframes động
+                const style = document.createElement('style');
+                style.textContent = `
+                    @keyframes fall {
+                        0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+                        100% { transform: translateY(100vh) rotate(${Math.random() * 360}deg); opacity: 0; }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+        }
+
+        // Định dạng số với số 0 đằng trước
+        function pad(n){return String(n).padStart(2,'0')}
+
+        // Cập nhật thời gian
+        function update(){
+            const now = new Date();
+            let diff = Math.max(0, now - start); // milliseconds
+            // compute components
+            const secs = Math.floor(diff/1000);
+            const days = Math.floor(secs / 86400);
+            const hours = Math.floor((secs % 86400) / 3600);
+            const minutes = Math.floor((secs % 3600) / 60);
+            const seconds = secs % 60;
+
+            // Update UI
+            timeNums.textContent = `${days} ngày ${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+            daysBig.textContent = days;
+            hms.textContent = `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+            const dd = String(start.getDate()).padStart(2,'0');
+            const mm = String(start.getMonth()+1).padStart(2,'0');
+            const yyyy = start.getFullYear();
+            sinceText.textContent = `từ ${dd}/${mm}/${yyyy}`;
+            document.getElementById('meta').textContent = `Ngày bắt đầu: ${dd}/${mm}/${yyyy}`;
+
+            // heartbeat speed based on seconds (subtle)
+            const beatSpeed = 0.8 + (seconds % 10) / 50; // vary between 0.8 - 1.0
+            heart.style.animationDuration = `${beatSpeed}s`;
+            // slight scale based on minutes to add life
+            heart.style.transform = `translateZ(0) scale(${1 + Math.min(0.06, minutes/1000)})`;
+
+            // Thay đổi màu sắc trái tim theo thời gian trong ngày
+            changeHeartColor(hours);
+            
+            // Tạo hiệu ứng lấp lánh ngẫu nhiên
+            if (Math.random() < 0.05) {
+                createSparkle();
+            }
+            
+            // Cập nhật thống kê nếu đang ở tab thống kê
+            if (document.getElementById('stats-tab').classList.contains('active')) {
+                createStatistics();
+            }
+        }
+
+        // Tạo hiệu ứng lấp lánh
+        function createSparkle() {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            sparkle.style.left = Math.random() * 100 + 'vw';
+            sparkle.style.top = Math.random() * 100 + 'vh';
+            sparkle.style.animationDelay = Math.random() * 2 + 's';
+            document.body.appendChild(sparkle);
+            
+            setTimeout(() => {
+                document.body.removeChild(sparkle);
+            }, 3000);
+        }
+
+        // Thay đổi màu sắc trái tim theo thời gian
+        function changeHeartColor(hour) {
+            const layers = document.querySelectorAll('.layer');
+            let color1, color2;
+            
+            if (hour >= 6 && hour < 12) {
+                // Sáng
+                color1 = '#ff9aa2';
+                color2 = '#ffb7c5';
+            } else if (hour >= 12 && hour < 18) {
+                // Trưa
+                color1 = '#ff6b81';
+                color2 = '#ff8aa0';
+            } else {
+                // Tối
+                color1 = '#ff5a7a';
+                color2 = '#ff86a1';
+            }
+            
+            layers[0].style.background = `linear-gradient(145deg, ${color1}, ${color2})`;
+            layers[1].style.background = `linear-gradient(140deg, ${color1}, #ffc6d1)`;
+            layers[2].style.background = `radial-gradient(circle at 30% 25%, rgba(255,255,255,0.35), transparent 20%), linear-gradient(150deg, ${color1}, ${color2} 60%, #ffd5e0)`;
+        }
+
+        /* Create floating hearts with random positions */
+        const floatLayer = document.getElementById('floatLayer');
+        const heartSVG = `<svg viewBox="0 0 32 29" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M23.6 0c-2.2 0-4.2 1.1-5.6 2.9C16.6 1.1 14.6 0 12.4 0 7.2 0 3 4.3 3 9.6c0 7.5 13 14.7 14.9 15.9.5.3 1.2.3 1.7 0C16 24.3 29 17.1 29 9.6 29 4.3 24.8 0 19.6 0z"/></svg>`;
+
+        function spawnHearts(count=18){
+            const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+            for(let i=0;i<count;i++){
+                const el = document.createElement('div');
+                el.className = 'h';
+                const size = Math.random()*36 + 20;
+                el.style.width = size + 'px';
+                el.style.height = size + 'px';
+                el.style.left = (Math.random()*110 - 5) + 'vw';
+                el.style.bottom = (-Math.random()*30 - 10) + 'vh';
+                el.style.color = ['#ff5a7a','#ff86a1','#ffd0df'][Math.floor(Math.random()*3)];
+                const dur = Math.random()*16 + 10;
+                const delay = Math.random()*-16;
+                el.style.animationDuration = dur + 's';
+                el.style.animationDelay = delay + 's';
+                el.innerHTML = heartSVG;
+                // random opacity & rotation
+                el.style.opacity = 0.8 + Math.random()*0.2;
+                floatLayer.appendChild(el);
+            }
+        }
+
+        // Hiệu ứng khi nhấp vào trái tim
+        heart.addEventListener('click', function() {
+            this.style.transform = 'scale(1.2)';
+            setTimeout(() => {
+                this.style.transform = 'scale(1)';
+            }, 300);
+            
+            // Tạo hiệu ứng trái tim nhỏ bay ra
+            createHeartBurst();
+            
+            // Thay đổi câu trích dẫn
+            showRandomQuote();
+        });
+
+        // Tạo hiệu ứng trái tim bung tỏa
+        function createHeartBurst() {
+            for (let i = 0; i < 12; i++) {
+                const miniHeart = document.createElement('div');
+                miniHeart.className = 'h';
+                miniHeart.style.width = '20px';
+                miniHeart.style.height = '20px';
+                miniHeart.style.position = 'fixed';
+                miniHeart.style.left = '50%';
+                miniHeart.style.top = '50%';
+                miniHeart.style.color = ['#ff5a7a','#ff86a1','#ffd0df'][Math.floor(Math.random()*3)];
+                miniHeart.innerHTML = heartSVG;
+                miniHeart.style.animation = `burst 1s ease-out forwards`;
+                miniHeart.style.zIndex = '3';
+                document.body.appendChild(miniHeart);
+                
+                // Thêm keyframes động
+                const style = document.createElement('style');
+                const angle = (i * 30) * Math.PI / 180;
+                const distance = 100;
+                const x = Math.cos(angle) * distance;
+                const y = Math.sin(angle) * distance;
+                
+                style.textContent = `
+                    @keyframes burst {
+                        0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+                        100% { transform: translate(${x}px, ${y}px) scale(0); opacity: 0; }
+                    }
+                `;
+                document.head.appendChild(style);
+                
+                // Xóa sau khi hoàn thành animation
+                setTimeout(() => {
+                    document.body.removeChild(miniHeart);
+                    document.head.removeChild(style);
+                }, 1000);
+            }
+        }
+
+        // Xử lý sự kiện cho ảnh đại diện
+        userAvatar.addEventListener('change', function(e) {
+            if (this.files && this.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    userAvatarPreview.querySelector('img').src = e.target.result;
+                    userAvatarPreview.style.display = 'block';
+                }
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+
+        loverAvatar.addEventListener('change', function(e) {
+            if (this.files && this.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    loverAvatarPreview.querySelector('img').src = e.target.result;
+                    loverAvatarPreview.style.display = 'block';
+                }
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+
+        // Xử lý sự kiện modal
+        settingsBtn.addEventListener('click', function() {
+            settingsModal.classList.add('active');
+        });
+
+        cancelBtn.addEventListener('click', function() {
+            settingsModal.classList.remove('active');
+        });
+
+        saveBtn.addEventListener('click', function() {
+            // Cập nhật ngày bắt đầu
+            const newDate = new Date(startDate.value);
+            if (!isNaN(newDate.getTime())) {
+                start = newDate;
+                saveToStorage();
+                update();
+                updateMilestones();
+                createStatistics();
+            }
+            
+            // Xử lý ảnh tải lên
+            if (photoUpload.files && photoUpload.files.length > 0) {
+                const savedPhotos = JSON.parse(localStorage.getItem('lovePhotos') || '[]');
+                const newPhotos = [];
+                
+                // Xử lý từng ảnh
+                for (let i = 0; i < photoUpload.files.length; i++) {
+                    const file = photoUpload.files[i];
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        newPhotos.push(e.target.result);
+                        
+                        // Khi đã xử lý xong tất cả ảnh
+                        if (newPhotos.length === photoUpload.files.length) {
+                            const allPhotos = [...savedPhotos, ...newPhotos];
+                            localStorage.setItem('lovePhotos', JSON.stringify(allPhotos));
+                            createFloatingPhotos(allPhotos);
+                        }
+                    };
+                    
+                    reader.readAsDataURL(file);
+                }
+            }
+            
+            // Xử lý ảnh đại diện của bạn
+            if (userAvatar.files && userAvatar.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    localStorage.setItem('userAvatar', e.target.result);
+                    userAvatarDisplay.querySelector('img').src = e.target.result;
+                    avatarsContainer.style.display = 'block';
+                    createAvatarHearts();
+                };
+                reader.readAsDataURL(userAvatar.files[0]);
+            }
+            
+            // Xử lý ảnh đại diện người yêu
+            if (loverAvatar.files && loverAvatar.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    localStorage.setItem('loverAvatar', e.target.result);
+                    loverAvatarDisplay.querySelector('img').src = e.target.result;
+                    avatarsContainer.style.display = 'block';
+                    createAvatarHearts();
+                };
+                reader.readAsDataURL(loverAvatar.files[0]);
+            }
+            
+            // Cập nhật tên người yêu
+            if (partnerName.value) {
+                loverName.textContent = partnerName.value;
+                localStorage.setItem('partnerName', partnerName.value);
+                document.title = `Đếm ngày yêu - ${partnerName.value}`;
+            }
+            
+            settingsModal.classList.remove('active');
+        });
+
+        // Đóng modal khi nhấp ra ngoài
+        settingsModal.addEventListener('click', function(e) {
+            if (e.target === settingsModal) {
+                settingsModal.classList.remove('active');
+            }
+        });
+
+        // Xử lý chuyển tab
+        navTabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                const tabId = this.getAttribute('data-tab');
+                
+                // Xóa active class từ tất cả các tab
+                navTabs.forEach(t => t.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+                
+                // Thêm active class cho tab được chọn
+                this.classList.add('active');
+                document.getElementById(`${tabId}-tab`).classList.add('active');
+                
+                // Cập nhật thống kê nếu chuyển đến tab thống kê
+                if (tabId === 'stats') {
+                    createStatistics();
+                }
+            });
+        });
+
+        // Xử lý thêm sự kiện
+        addEventBtn.addEventListener('click', function() {
+            eventDate.value = formatDateForInput(new Date());
+            eventTitle.value = '';
+            eventDescription.value = '';
+            eventModal.classList.add('active');
+        });
+
+        cancelEventBtn.addEventListener('click', function() {
+            eventModal.classList.remove('active');
+        });
+
+        saveEventBtn.addEventListener('click', function() {
+            const events = JSON.parse(localStorage.getItem('timelineEvents') || '[]');
+            events.push({
+                date: eventDate.value, 
+                title: eventTitle.value,
+                description: eventDescription.value
+            });
+            
+            localStorage.setItem('timelineEvents', JSON.stringify(events));
+            renderTimeline(events);
+            eventModal.classList.remove('active');
+        });
+
+        // Xử lý thêm thư tình
+        addLetterBtn.addEventListener('click', function() {
+            letterTitle.value = '';
+            letterContent.value = '';
+            letterModal.classList.add('active');
+        });
+
+        cancelLetterBtn.addEventListener('click', function() {
+            letterModal.classList.remove('active');
+        });
+
+        saveLetterBtn.addEventListener('click', function() {
+            const letters = JSON.parse(localStorage.getItem('loveLetters') || '[]');
+            letters.push({
+                date: formatDateForInput(new Date()),
+                title: letterTitle.value,
+                content: letterContent.value 
+            });
+            
+            localStorage.setItem('loveLetters', JSON.stringify(letters));
+            renderLoveLetters(letters);
+            letterModal.classList.remove('active');
+        });
+
+        // Xử lý nút nhạc - mở tab nhạc
+        musicBtn.addEventListener('click', function() {
+            // Chuyển đến tab nhạc
+            navTabs.forEach(t => t.classList.remove('active'));
+            tabContents.forEach(c => c.classList.remove('active'));
+            
+            document.querySelector('.nav-tab[data-tab="music"]').classList.add('active');
+            document.getElementById('music-tab').classList.add('active');
+        });
+
+        // Khởi tạo
+        loadFromStorage();
+        update();
+        setInterval(update, 1000);
+        spawnHearts(24);
+        updateMilestones();
+
+        // accessible title update (for screen readers)
+        setInterval(() => {
+            document.title = `Đã yêu: ${daysBig.textContent} ngày ${hms.textContent}`;
+        }, 3000);
+    </script>
+</body>
+</html>
